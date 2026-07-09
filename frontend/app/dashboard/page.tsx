@@ -7,6 +7,7 @@ import { FileText } from "lucide-react";
 import LogUploader from "@/components/LogUploader";
 import AppHeader from "@/components/AppHeader";
 import { shortAnalysisId, analysisTitle } from "@/lib/analysis";
+import StatusBadge from "@/components/StatusBadge";
 
 export default function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
@@ -82,9 +83,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                     </div>
-                    <div className={`text-sm font-medium ${analysis.status === 'completed' ? 'text-emerald-400' : analysis.status === 'failed' ? 'text-red-400' : 'text-amber-400'}`}>
-                      {analysis.status}
-                    </div>
+                    <StatusBadge status={analysis.status} />
                   </div>
                 </Link>
               ))}

@@ -5,6 +5,8 @@ import { getAnalysisHistory, getCurrentUser, User, type AnalysisHistory } from "
 import Link from "next/link";
 import { FileText, Clock, Search } from "lucide-react";
 import AppHeader from "@/components/AppHeader";
+import PageHeader from "@/components/PageHeader";
+import StatusBadge from "@/components/StatusBadge";
 import { shortAnalysisId, analysisTitle } from "@/lib/analysis";
 
 export default function AnalysisHistory() {
@@ -52,9 +54,7 @@ export default function AnalysisHistory() {
       <AppHeader user={user} />
 
       <main className="w-full px-6 py-8">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-slate-100">Analysis History</h1>
-        </div>
+        <PageHeader title="Analysis History" />
 
         {/* Search */}
         <div className="mb-6 relative">
@@ -101,18 +101,8 @@ export default function AnalysisHistory() {
                   </div>
                   
                   <div className="flex items-center gap-6">
-                    <div className="text-right">
-                      <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium ${
-                        analysis.status === 'completed' ? 'bg-emerald-900/30 text-emerald-400' :
-                        analysis.status === 'failed' ? 'bg-red-900/30 text-red-400' :
-                        'bg-amber-900/30 text-amber-400'
-                      }`}>
-                        {analysis.status === 'completed' && '✓ '}
-                        {analysis.status === 'failed' && '✗ '}
-                        {analysis.status}
-                      </div>
-                    </div>
-                    
+                    <StatusBadge status={analysis.status} />
+
                     <div className="text-right">
                       <div className="flex items-center gap-1.5 text-slate-400 text-sm">
                         <Clock className="h-4 w-4" />

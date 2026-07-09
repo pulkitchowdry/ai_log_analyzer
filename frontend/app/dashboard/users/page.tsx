@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { getUsers, getCurrentUser, User, deleteUser, updateUserRole, createUser } from "@/lib/api";
 import { UserPlus, Trash2, X, AlertCircle } from "lucide-react";
 import AppHeader from "@/components/AppHeader";
+import PageHeader from "@/components/PageHeader";
 
 export default function UserManagement() {
   const [users, setUsers] = useState<User[]>([]);
@@ -108,18 +109,18 @@ export default function UserManagement() {
       <AppHeader user={currentUser} />
 
       <main className="w-full px-6 py-8">
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-100">User Management</h1>
-            <p className="text-slate-400">Manage access for {currentUser.organization_name}</p>
-          </div>
-          <button 
-            onClick={() => setShowCreateModal(true)}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors"
-          >
-            <UserPlus className="h-4 w-4" /> Create User
-          </button>
-        </div>
+        <PageHeader
+          title="User Management"
+          subtitle={`Manage access for ${currentUser.organization_name}`}
+          actions={
+            <button
+              onClick={() => setShowCreateModal(true)}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors"
+            >
+              <UserPlus className="h-4 w-4" /> Create User
+            </button>
+          }
+        />
 
         {error && (
           <div className="mb-6 p-4 bg-red-900/20 border border-red-700 rounded-lg flex items-center gap-3 text-red-300">

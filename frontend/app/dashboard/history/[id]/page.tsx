@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Clock } from "lucide-react";
 import AnalysisTabs from "@/components/AnalysisTab";
 import AppHeader from "@/components/AppHeader";
+import StatusBadge from "@/components/StatusBadge";
 import { shortAnalysisId, analysisTitle } from "@/lib/analysis";
 
 export default function AnalysisDetail() {
@@ -83,13 +84,7 @@ export default function AnalysisDetail() {
                 </span>
               </div>
             </div>
-            <div className={`px-4 py-2 rounded-lg font-medium ${
-              analysis.status === 'completed' ? 'bg-emerald-900/30 text-emerald-400' :
-              analysis.status === 'failed' ? 'bg-red-900/30 text-red-400' :
-              'bg-amber-900/30 text-amber-400'
-            }`}>
-              {analysis.status}
-            </div>
+            <StatusBadge status={analysis.status} size="md" />
           </div>
         </div>
 
