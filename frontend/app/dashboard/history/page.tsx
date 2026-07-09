@@ -83,29 +83,29 @@ export default function AnalysisHistory() {
                 href={`/dashboard/history/${analysis.id}`}
                 className="glass p-4 rounded-lg border border-slate-700 hover:border-blue-500 transition-all hover:shadow-lg block"
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="p-2 bg-blue-900/20 rounded-lg">
+                <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
+                  <div className="flex min-w-0 items-center gap-4">
+                    <div className="p-2 bg-blue-900/20 rounded-lg shrink-0">
                       <FileText className="h-6 w-6 text-blue-400" />
                     </div>
-                    <div>
-                      <div className="flex items-center gap-2.5">
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
                         <span className="font-mono text-xs text-blue-300/90 bg-blue-950/40 border border-blue-900/50 rounded px-1.5 py-0.5">
                           {shortAnalysisId(analysis.id)}
                         </span>
-                        <span className="font-semibold text-slate-200 text-lg">
+                        <span className="font-semibold text-slate-200 text-lg break-words">
                           {analysisTitle(analysis.domain)}
                         </span>
                       </div>
                     </div>
                   </div>
-                  
-                  <div className="flex items-center gap-6">
+
+                  <div className="flex shrink-0 items-center gap-4 sm:gap-6">
                     <StatusBadge status={analysis.status} />
 
                     <div className="text-right">
                       <div className="flex items-center gap-1.5 text-slate-400 text-sm">
-                        <Clock className="h-4 w-4" />
+                        <Clock className="h-4 w-4 shrink-0" />
                         {new Date(analysis.created_at).toLocaleDateString()}
                       </div>
                       <div className="text-xs text-slate-600">
