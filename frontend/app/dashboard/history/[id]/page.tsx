@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Clock } from "lucide-react";
 import AnalysisTabs from "@/components/AnalysisTab";
 import AppHeader from "@/components/AppHeader";
+import { shortAnalysisId, analysisTitle } from "@/lib/analysis";
 
 export default function AnalysisDetail() {
   const params = useParams();
@@ -67,9 +68,14 @@ export default function AnalysisDetail() {
               <Link href="/dashboard/history" className="text-sm text-slate-400 hover:text-slate-200 mb-1 inline-block">
                 ← Back to History
               </Link>
-              <h1 className="text-2xl font-bold text-slate-100 capitalize mb-1">
-                {analysis.domain} Analysis
-              </h1>
+              <div className="flex items-center gap-3 mb-1">
+                <span className="font-mono text-sm text-blue-300/90 bg-blue-950/40 border border-blue-900/50 rounded px-2 py-0.5">
+                  {shortAnalysisId(analysis.id)}
+                </span>
+                <h1 className="text-2xl font-bold text-slate-100">
+                  {analysisTitle(analysis.domain)}
+                </h1>
+              </div>
               <div className="flex items-center gap-4 text-sm text-slate-400">
                 <span className="flex items-center gap-1">
                   <Clock className="h-4 w-4" />

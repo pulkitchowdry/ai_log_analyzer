@@ -5,6 +5,7 @@ import { getAnalysisHistory, getCurrentUser, User, type AnalysisHistory } from "
 import Link from "next/link";
 import { FileText, Clock, Search } from "lucide-react";
 import AppHeader from "@/components/AppHeader";
+import { shortAnalysisId, analysisTitle } from "@/lib/analysis";
 
 export default function AnalysisHistory() {
   const [analyses, setAnalyses] = useState<AnalysisHistory[]>([]);
@@ -31,9 +32,10 @@ export default function AnalysisHistory() {
     init();
   }, [router]);
 
-  const filteredAnalyses = analyses.filter(a =>
-    a.domain.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredAnalyses = analyses.filter(a => {
+    const q = searchTerm.toLowerCase();
+    return a.domain.toLowerCase().includes(q) || shortAnalysisId(a.id).toLowerCase().includes(q);
+  });
 
   if (loading) {
     return (
@@ -50,9 +52,8 @@ export default function AnalysisHistory() {
       <AppHeader user={user} />
 
       <main className="w-full px-6 py-8">
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-slate-100 mb-2">Analysis History</h1>
-          <p className="text-slate-400">View all your previous log analyses</p>
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold text-slate-100">Analysis History</h1>
         </div>
 
         {/* Search */}
@@ -60,7 +61,7 @@ export default function AnalysisHistory() {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-500" />
           <input
             type="text"
-            placeholder="Search by domain (kubernetes, nginx, system)..."
+            placeholder="Search by ID (INC-…) or domain (kubernetes, nginx, system)..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full bg-slate-900/50 border border-slate-700 rounded-lg pl-10 pr-4 py-2 text-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
@@ -88,8 +89,13 @@ export default function AnalysisHistory() {
                       <FileText className="h-6 w-6 text-blue-400" />
                     </div>
                     <div>
-                      <div className="font-semibold text-slate-200 capitalize text-lg">
-                        {analysis.domain} Analysis
+                      <div className="flex items-center gap-2.5">
+                        <span className="font-mono text-xs text-blue-300/90 bg-blue-950/40 border border-blue-900/50 rounded px-1.5 py-0.5">
+                          {shortAnalysisId(analysis.id)}
+                        </span>
+                        <span className="font-semibold text-slate-200 text-lg">
+                          {analysisTitle(analysis.domain)}
+                        </span>
                       </div>
                     </div>
                   </div>

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { FileText } from "lucide-react";
 import LogUploader from "@/components/LogUploader";
 import AppHeader from "@/components/AppHeader";
+import { shortAnalysisId, analysisTitle } from "@/lib/analysis";
 
 export default function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
@@ -45,18 +46,16 @@ export default function Dashboard() {
     <div className="min-h-screen bg-slate-950">
       <AppHeader user={user} />
 
-      {/* Main Content */}
+      {/* Main Content — primary action first */}
       <main className="w-full px-6 py-8">
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-slate-100 mb-2">Incident Analysis</h2>
-          <p className="text-slate-400">Collect local Linux and Docker evidence or analyze uploaded logs</p>
-        </div>
-        
-        {/* Recent Analyses Preview */}
+        {/* Log Uploader Component (primary workflow) */}
+        <LogUploader />
+
+        {/* Recent Analyses — secondary, quick access to prior runs */}
         {analyses.length > 0 && (
-          <div className="mb-8">
+          <div className="mt-12 max-w-3xl mx-auto">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-slate-200">Recent Analyses</h3>
+              <h3 className="text-lg font-semibold text-slate-200">Recent analyses</h3>
               <Link href="/dashboard/history" className="text-sm text-blue-400 hover:text-blue-300">
                 View all →
               </Link>
@@ -72,19 +71,19 @@ export default function Dashboard() {
                     <div className="flex items-center gap-3">
                       <FileText className="h-5 w-5 text-blue-400" />
                       <div>
-                        <div className="font-medium text-slate-200 capitalize">{analysis.domain} Analysis</div>
-                        <div className="text-sm text-slate-400">
-                          {new Date(analysis.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-xs text-blue-300/90 bg-blue-950/40 border border-blue-900/50 rounded px-1.5 py-0.5">
+                            {shortAnalysisId(analysis.id)}
+                          </span>
+                          <span className="font-medium text-slate-200">{analysisTitle(analysis.domain)}</span>
+                        </div>
+                        <div className="text-sm text-slate-400 mt-0.5">
+                          {new Date(analysis.created_at).toLocaleString([], { dateStyle: "medium", timeStyle: "short" })}
                         </div>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <div className={`text-sm font-medium ${analysis.status === 'completed' ? 'text-emerald-400' : analysis.status === 'failed' ? 'text-red-400' : 'text-amber-400'}`}>
-                        {analysis.status}
-                      </div>
-                      <div className="text-xs text-slate-500">
-                        {new Date(analysis.created_at).toLocaleDateString()}
-                      </div>
+                    <div className={`text-sm font-medium ${analysis.status === 'completed' ? 'text-emerald-400' : analysis.status === 'failed' ? 'text-red-400' : 'text-amber-400'}`}>
+                      {analysis.status}
                     </div>
                   </div>
                 </Link>
@@ -92,9 +91,6 @@ export default function Dashboard() {
             </div>
           </div>
         )}
-        
-        {/* Log Uploader Component */}
-        <LogUploader />
       </main>
     </div>
   );

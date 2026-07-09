@@ -118,12 +118,10 @@ export default function LogUploader({ onAnalysisComplete }: LogUploaderProps) {
 
   return (
     <div className="w-full px-6 py-6 space-y-8">
-      <header className="text-center space-y-2">
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
-          DevOps AI Log Analyzer
-        </h1>
+      <header className="space-y-1">
+        <h1 className="text-2xl font-bold text-slate-100">Analyze an incident</h1>
         <p className="text-slate-400">
-          Pull local Linux and Docker evidence, structure it for AI analysis, and generate an explainable mitigation plan.
+          Pick an evidence source, then run analysis to get a root cause and mitigation plan.
         </p>
       </header>
       <div>
