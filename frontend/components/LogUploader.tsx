@@ -117,7 +117,7 @@ export default function LogUploader({ onAnalysisComplete }: LogUploaderProps) {
   };
 
   return (
-    <div className="w-full px-6 py-6 space-y-8">
+    <div className="mx-auto max-w-5xl w-full py-6 space-y-8">
       <header className="space-y-1">
         <h1 className="text-2xl font-bold text-slate-100">Analyze an incident</h1>
         <p className="text-slate-400">
@@ -220,14 +220,16 @@ export default function LogUploader({ onAnalysisComplete }: LogUploaderProps) {
 
           {error && <div className="text-red-400 text-sm bg-red-900/20 border border-red-700 rounded p-3">{error}</div>}
 
-          <button
-            disabled={loading}
-            onClick={handleSubmit}
-            className="w-full py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-medium flex items-center justify-center gap-2 transition-all"
-          >
-            {loading ? <Loader2 className="animate-spin h-5 w-5" /> : <FileText className="h-5 w-5" />}
-            {loading ? "Analyzing Incident..." : `Analyze ${selected.label}`}
-          </button>
+          <div className="flex justify-center">
+            <button
+              disabled={loading}
+              onClick={handleSubmit}
+              className="w-full sm:w-auto sm:min-w-[280px] px-10 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-medium flex items-center justify-center gap-2 transition-all"
+            >
+              {loading ? <Loader2 className="animate-spin h-5 w-5" /> : <FileText className="h-5 w-5" />}
+              {loading ? "Analyzing Incident..." : `Analyze ${selected.label}`}
+            </button>
+          </div>
         </div>
 
         {loading && (

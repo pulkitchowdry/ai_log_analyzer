@@ -54,7 +54,7 @@ export default function Dashboard() {
 
         {/* Recent Analyses — secondary, quick access to prior runs */}
         {analyses.length > 0 && (
-          <div className="mt-12 max-w-3xl mx-auto">
+          <div className="mt-10 max-w-5xl mx-auto">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-slate-200">Recent analyses</h3>
               <Link href="/dashboard/history" className="text-sm text-blue-400 hover:text-blue-300">
