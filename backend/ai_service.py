@@ -47,13 +47,22 @@ Do not invent financial loss, customer counts, or outage duration unless the evi
 
 BREVITY_INSTRUCTIONS = """
 Keep the response concise and avoid repeating the same fact across sections.
+- Write for incident triage: lead with the conclusion, then the evidence, then the action.
+- Prefer short, direct statements over explanatory paragraphs.
+- Do not include generic DevOps background, definitions, or repeated context.
+- Put raw technical detail, identifiers, and secondary observations in evidence, key_findings, or investigation_gaps instead of long summary text.
+- When evidence ids are available, populate evidence_ids on investigation_timeline items with only the ids that directly support that stage.
+- investigation_summary: maximum 2 sentences.
+- impact: maximum 1 sentence.
 - investigation_timeline fields: 1 sentence each.
 - root_causes: maximum 3 items.
+- root_causes items: maximum 1 sentence each.
 - hypotheses: maximum 3 items.
 - key_findings: maximum 4 items.
 - investigation_gaps: maximum 3 items.
 - mitigation steps: maximum 3 steps in each phase.
 - mitigation step descriptions: maximum 140 characters.
+- mitigation summary: maximum 2 sentences.
 - rollback_steps: maximum 3 items.
 - agent_spec_ready: maximum 3 short items.
 Put secondary details in evidence and investigation_gaps instead of long paragraphs.

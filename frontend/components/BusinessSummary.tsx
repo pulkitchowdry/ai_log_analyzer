@@ -1,4 +1,4 @@
-import { AlertTriangle, ArrowRightCircle, Briefcase, Gauge, Server } from "lucide-react";
+import { AlertTriangle, ArrowRightCircle, Briefcase, Gauge, Server, ShieldAlert, Wrench } from "lucide-react";
 import { AnalysisResult, BusinessRiskLevel } from "@/lib/types";
 
 const riskStyles: Record<BusinessRiskLevel, string> = {
@@ -26,6 +26,8 @@ export default function BusinessSummary({ data }: { data: AnalysisResult }) {
   };
 
   const riskLevel = summary.risk_level || riskFromSeverity(data.severity);
+  const likelyRootCause = data.root_cause?.root_causes?.[0] || data.root_cause?.investigation_summary || "Root cause was not identified from the available evidence.";
+  const mitigation = data.mitigation_plan?.summary || summary.recommended_next_step;
 
   return (
     <section className="rounded-lg border border-slate-700 bg-slate-900/60 p-5">
@@ -43,6 +45,22 @@ export default function BusinessSummary({ data }: { data: AnalysisResult }) {
       </div>
 
       <div className="mt-5 grid gap-4 lg:grid-cols-2">
+        <div className="rounded-lg border border-red-800/50 bg-red-950/20 p-4">
+          <div className="mb-2 flex items-center gap-2 text-sm font-medium text-red-200">
+            <ShieldAlert className="h-4 w-4 text-red-300" />
+            Likely Root Cause
+          </div>
+          <p className="text-sm leading-relaxed text-slate-200">{likelyRootCause}</p>
+        </div>
+
+        <div className="rounded-lg border border-emerald-800/50 bg-emerald-950/20 p-4">
+          <div className="mb-2 flex items-center gap-2 text-sm font-medium text-emerald-200">
+            <Wrench className="h-4 w-4 text-emerald-300" />
+            Recommended Mitigation
+          </div>
+          <p className="text-sm leading-relaxed text-slate-200">{mitigation}</p>
+        </div>
+
         <div className="rounded-lg border border-slate-700 bg-slate-950/40 p-4">
           <div className="mb-2 flex items-center gap-2 text-sm font-medium text-slate-200">
             <AlertTriangle className="h-4 w-4 text-amber-300" />

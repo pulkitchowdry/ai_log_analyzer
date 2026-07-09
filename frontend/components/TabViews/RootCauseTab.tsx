@@ -1,4 +1,4 @@
-import { ShieldAlert, FileWarning, Lightbulb, CheckCircle, Info } from "lucide-react";
+import { ChevronDown, ShieldAlert, FileWarning, Lightbulb, CheckCircle, Info } from "lucide-react";
 import { AnalysisResult } from "@/lib/types";
 import DiagramLayout from "@/components/DiagramLayout";
 
@@ -21,24 +21,61 @@ const BadgeList = ({ icon: Icon, title, items, type = "info" }: { icon: any, tit
   );
 };
 
+const ExpandableList = ({ icon: Icon, title, items, tone = "slate" }: { icon: any; title: string; items: string[]; tone?: "slate" | "rose" }) => {
+  const styles = {
+    slate: {
+      container: "border-slate-700 bg-slate-900/40",
+      icon: "text-blue-400",
+      title: "text-slate-200",
+      hint: "text-slate-500",
+      item: "text-slate-300",
+    },
+    rose: {
+      container: "border-rose-800/50 bg-rose-950/20",
+      icon: "text-rose-300",
+      title: "text-rose-300",
+      hint: "text-rose-300/70",
+      item: "text-rose-200/80",
+    },
+  }[tone];
+
+  return (
+    <details className={`group rounded-lg border p-4 ${styles.container}`}>
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-3">
+        <span className={`inline-flex items-center gap-2 font-semibold ${styles.title}`}>
+          <Icon className={`h-4 w-4 ${styles.icon}`} />
+          {title}
+          <span className="rounded-full border border-slate-700 bg-slate-950/50 px-2 py-0.5 text-xs font-normal text-slate-400">
+            {items.length}
+          </span>
+        </span>
+        <span className={`inline-flex items-center gap-1 text-xs ${styles.hint}`}>
+          Click to expand
+          <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" />
+        </span>
+      </summary>
+      <ul className={`mt-3 space-y-1.5 pl-5 list-disc text-sm ${styles.item}`}>
+        {items.map((item, i) => <li key={i}>{item}</li>)}
+      </ul>
+    </details>
+  );
+};
+
 export default function RootCauseTab({ data, diagram }: { data: AnalysisResult["root_cause"]; diagram?: string }) {
   return (
     <DiagramLayout diagram={diagram} id="rootcause">
       <div className="space-y-4">
+        <BadgeList icon={FileWarning} title="Root Causes" items={data.root_causes} type="danger" />
+        <BadgeList icon={CheckCircle} title="Key Findings" items={data.key_findings} type="success" />
+        <BadgeList icon={ShieldAlert} title="Impact" items={[data.impact]} type="warn" />
+
         <div className="p-4 bg-slate-900/50 border border-slate-700 rounded-lg">
           <h3 className="font-semibold text-slate-200 mb-1 flex items-center gap-2"><Info className="h-4 w-4 text-blue-400"/> Investigation Summary</h3>
           <p className="text-sm text-slate-300 leading-relaxed">{data.investigation_summary}</p>
         </div>
-        <BadgeList icon={ShieldAlert} title="Impact" items={[data.impact]} type="danger" />
-        <BadgeList icon={FileWarning} title="Root Causes" items={data.root_causes} type="warn" />
-        <BadgeList icon={Lightbulb} title="Hypotheses" items={data.hypotheses} />
-        <BadgeList icon={CheckCircle} title="Key Findings" items={data.key_findings} type="success" />
-        <div className="p-4 border border-rose-800/50 rounded-lg bg-rose-950/30">
-          <h3 className="font-semibold text-rose-300 mb-2 flex items-center gap-2"><FileWarning className="h-4 w-4"/> Investigation Gaps</h3>
-          <ul className="space-y-1.5 pl-5 list-disc text-sm text-rose-200/80">
-            {data.investigation_gaps.map((g, i) => <li key={i}>{g}</li>)}
-          </ul>
-        </div>
+
+        <ExpandableList icon={Lightbulb} title="Hypotheses" items={data.hypotheses} />
+        <ExpandableList icon={FileWarning} title="Investigation Gaps" items={data.investigation_gaps} tone="rose" />
       </div>
     </DiagramLayout>
   );

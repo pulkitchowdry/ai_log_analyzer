@@ -6,6 +6,7 @@ import TimelineTab from "./TabViews/TimelineTab";
 import RootCauseTab from "./TabViews/RootCauseTab";
 import MitigationTab from "./TabViews/MitigationTab";
 import BusinessSummary from "./BusinessSummary";
+import Evidence from "./Evidence";
 
 export default function AnalysisTabs({ data }: { data: AnalysisResult }) {
   const [active, setActive] = useState(0);
@@ -36,11 +37,26 @@ export default function AnalysisTabs({ data }: { data: AnalysisResult }) {
           })}
         </div>
         <div className="p-6 min-h-[400px]">
-          {active === 0 && <TimelineTab data={data.investigation_timeline} diagram={data.diagrams?.timeline_flowchart} />}
+          {active === 0 && <TimelineTab data={data.investigation_timeline} diagram={data.diagrams?.timeline_flowchart} evidence={data.evidence || []} />}
           {active === 1 && <RootCauseTab data={data.root_cause} diagram={data.diagrams?.root_cause_diagram} />}
           {active === 2 && <MitigationTab data={data.mitigation_plan} diagram={data.diagrams?.mitigation_flowchart} actions={data.recommended_actions || []} />}
         </div>
       </div>
+
+      <section className="rounded-lg border border-slate-700 bg-slate-900/50 p-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h3 className="text-sm font-semibold text-slate-200">Evidence Details</h3>
+            <p className="mt-1 text-xs text-slate-500">
+              Technical details are collapsed by default to keep the main triage view concise.
+            </p>
+          </div>
+          <span className="rounded border border-slate-700 bg-slate-950/50 px-2 py-1 text-xs text-slate-400">
+            {(data.evidence || []).length} items
+          </span>
+        </div>
+        <Evidence evidence={data.evidence || []} />
+      </section>
     </div>
   );
 }
