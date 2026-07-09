@@ -28,13 +28,13 @@ export default function AppHeader({ user }: AppHeaderProps) {
 
   return (
     <header className="glass border-b border-slate-800 sticky top-0 z-50">
-      <div className="w-full px-4 sm:px-6 py-3 sm:py-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
+      <div className="w-full px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Activity className="h-6 w-6 text-blue-400" />
-          <h1 className="text-lg sm:text-xl font-bold text-slate-100">DevOps AI Analyzer</h1>
+          <h1 className="text-xl font-bold text-slate-100">DevOps AI Analyzer</h1>
         </div>
 
-        <nav className="order-last w-full flex items-center justify-center gap-1 sm:order-none sm:w-auto sm:justify-start">
+        <nav className="flex items-center gap-1">
           <Link href="/dashboard" className={navLinkClass("/dashboard", true)}>
             <Activity className="inline h-4 w-4 mr-2" />
             Analyze
@@ -51,8 +51,8 @@ export default function AppHeader({ user }: AppHeaderProps) {
           )}
         </nav>
 
-        <div className="flex items-center gap-3 sm:gap-4 lg:gap-6">
-          <div className="hidden lg:flex items-center gap-2 text-sm text-slate-400">
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-2 text-sm text-slate-400">
             <Building2 className="h-4 w-4" />
             <span>{user.organization_name}</span>
           </div>
@@ -62,11 +62,10 @@ export default function AppHeader({ user }: AppHeaderProps) {
             <span className="text-sm capitalize text-slate-300">{user.role}</span>
           </div>
 
-          <div className="hidden sm:block text-sm text-slate-300">{user.full_name}</div>
+          <div className="text-sm text-slate-300">{user.full_name}</div>
 
           <button
             onClick={handleLogout}
-            aria-label="Log out"
             className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
           >
             <LogOut className="h-5 w-5" />
